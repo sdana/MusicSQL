@@ -488,9 +488,39 @@ select * from song;
 select * from RecordLabel;
 
 
-SELECT s.Title, a.Title, l.RecordLableName
+SELECT s.Title 'Song', a.Title 'Album', l.RecordLableName 'Lable'
 FROM Song s
 LEFT JOIN Album a ON s.AlbumId = a.AlbumID
 LEFT JOIN RecordLable l ON a.RecordLableId = l.RecordLableId;
+
+/**
+Your challenge is to write a query to answer the following questions from the sales team.
+
+Which album has the most songs?
+Which genre has been assigned to the most songs?
+Which record label has released the most albums?
+To accomplish this, you will need to use the MAX() aggregation function, the GROUP BY clause, the ORDER BY clause, and the LIMIT keyword.
+**/
+
+SELECT COUNT(s.AlbumId)"Songs on Album", a.Title "Album Title"
+FROM Song s
+JOIN Album a ON s.AlbumId = a.AlbumId;
+
+SELECT COUNT(s.SongId), a.Title, COUNT(s.GenreId), g.Label, COUNT(a.RecordLableId), l.RecordLableName
+FROM Song s
+JOIN Album a ON s.AlbumId = a.AlbumId
+JOIN RecordLable l ON a.RecordLableId = l.RecordLableId
+JOIN Genre g ON s.GenreId = g.GenreId
+GROUP BY s.AlbumId, s.GenreId, a.RecordLableId
+ORDER BY COUNT(s.AlbumId) DESC;
+--ORDER BY COUNT (s.GenreId) DESC;
+
+SELECT COUNT(a.RecordLableId), l.RecordLableName
+FROM Album a
+JOIN RecordLable l ON a.RecordLableId = l.RecordLableId
+GROUP BY a.RecordLableId
+ORDER BY COUNT(a.RecordLableId) DESC
+LIMIT 1;
+
 
 
