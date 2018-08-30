@@ -48,5 +48,21 @@ FROM Song s
 JOIN Genre g ON s.GenreId = g.GenreId
 GROUP BY s.GenreId;
 
-SELECT g.Label, a.ArtistName, COUNT(s.ArtistId)
+--how many artists exist for each genre?
+SELECT g.Label, COUNT(s.ArtistId)
+FROM Song s
+JOIN Genre g ON s.GenreId = g.GenreId
+GROUP BY s.ArtistId;
+
+--Using MAX() function, write a select statement to find the album with the longest duration. The result should display the album title and the duration.
+SELECT a.Title, MAX(a.AlbumLength)
+FROM Album a;
+
+--Using MAX() function, write a select statement to find the song with the longest duration. The result should display the song title and the duration.
+SELECT s.Title, a.Title, art.ArtistName, MAX(s.SongLength)
+FROM Song s
+JOIN Album a ON s.AlbumId = a.AlbumId
+JOIN Artist art ON s.ArtistId = art.ArtistId;
+
+
 
